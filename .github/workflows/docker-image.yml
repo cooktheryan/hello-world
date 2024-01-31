@@ -32,3 +32,16 @@ jobs:
       uses: sigstore/cosign-installer@v3.3.0
       with:
         cosign-release: 'v2.2.2'
+
+    - name: authenticate to receive token but keep it secret
+      run: |
+        TOKEN=$(curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+        -d "username=${{ secrets.AUTH_USER }}" \
+        -d "password=${{ secrets.AUTH_PASSWORD }}" \
+        -d "grant_type=password" \
+        -d "scope=openid" \
+        -d "client_id=sigstore" \
+        ${{ secrets.OIDC_ISSUER_URL }}/protocol/openid-connect/token |  sed -E 's/.*"access_token":"([^"]*).*/\1/')
+
+    - name: Sign the image using the token
+      run: cosign sign -y --fulcio-url=${{ secrets.FULCIO_URL }} --rekor-url=${{ secrets.REKOR_URL }} --oidc-issuer=${{ secrets.OIDC_ISSUER_URL }} --identity-token=$TOKEN quay.io/rcook/test:hello-world
