@@ -41,8 +41,7 @@ jobs:
         -d "grant_type=password" \
         -d "scope=openid" \
         -d "client_id=sigstore" \
-        ${{ secrets.OIDC_ISSUER_URL }}/protocol/openid-connect/token |  sed -E 's/.*"access_token":"([^"]*).*/\1/')
-        echo "$TOKEN" >> $GITHUB_ENV
+        ${{ secrets.OIDC_ISSUER_URL }}/protocol/openid-connect/token |  sed -E 's/.*"access_token":"([^"]*).*/\1/') >> $GITHUB_ENV
 
     - name: Sign the image using the token
       run: cosign sign -y --fulcio-url=${{ secrets.FULCIO_URL }} --rekor-url=${{ secrets.REKOR_URL }} --oidc-issuer=${{ secrets.OIDC_ISSUER_URL }} --identity-token=${{ env.TOKEN }} quay.io/rcook/test:hello-world
