@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Log in to registry.redhat.io
+      uses: redhat-actions/podman-login@9184318aae1ee5034fbfbacc0388acf12669171f # v1
+      with:
+        username: ${{ secrets.REGISTRY_USER }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+        registry: quay.io
+    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag quay.io/rcook/test:hello-world
+
+    - name: Push the image
+      run: docker push quay.io/rcook/test:hello-world
