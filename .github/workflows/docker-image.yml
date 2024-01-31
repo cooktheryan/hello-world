@@ -27,3 +27,8 @@ jobs:
 
     - name: Push the image
       run: docker push quay.io/rcook/test:hello-world
+
+    - name: Install Cosign
+      uses: sigstore/cosign-installer@v3.3.0
+      with:
+        cosign-release: 'v2.2.2'
