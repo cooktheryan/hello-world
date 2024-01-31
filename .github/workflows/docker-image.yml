@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Log in to registry.redhat.io
+    - name: Log in to the registry
       uses: redhat-actions/podman-login@9184318aae1ee5034fbfbacc0388acf12669171f # v1
       with:
         username: ${{ secrets.REGISTRY_USER }}
@@ -41,7 +41,7 @@ jobs:
         -d "grant_type=password" \
         -d "scope=openid" \
         -d "client_id=sigstore" \
-        ${{ secrets.OIDC_ISSUER_URL }}/protocol/openid-connect/token |  sed -E 's/.*"access_token":"([^"]*).*/\1/')
+        ${{ secrets.OIDC_ISSUER_URL }}/protocol/openid-connect/token |  sed -E 's/.*"access_token":"([^"]*).*/\1/')  >> $GITHUB_ENV
 
     - name: Sign the image using the token
       run: cosign sign -y --fulcio-url=${{ secrets.FULCIO_URL }} --rekor-url=${{ secrets.REKOR_URL }} --oidc-issuer=${{ secrets.OIDC_ISSUER_URL }} --identity-token=$TOKEN quay.io/rcook/test:hello-world
