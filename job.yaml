@@ -31,7 +31,7 @@ spec:
         - name: OIDC_ISSUER_URL
           value: "https://keycloak-keycloak-system.BASE_DOMAIN/auth/realms/sigstore"
         - name: REKOR_URL
-          value: "rekor-server-securesign.BASE_DOMAIN"
+          value: "https://rekor-server-securesign.BASE_DOMAIN"
         - name: TUF_URL
           value: "https://tuf-securesign.BASE_DOMAIN"
         command: ["/bin/sh", "-c"]
