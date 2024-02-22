@@ -27,13 +27,13 @@ spec:
         - name: OIDC_AUTHENTICATION_REALM
           value: "sigstore"
         - name: FULCIO_URL
-          value: "fulcio-server-url"
+          value: "https://fulcio-server-securesign.$BASE_DOMAIN"
         - name: OIDC_ISSUER_URL
-          value: "oidc-issuer-url"
+          value: "https://keycloak-keycloak-system.$BASE_DOMAIN/auth/realms/sigstore"
         - name: REKOR_URL
-          value: "rekor-server-url"
+          value: "rekor-server-securesign.$BASE_DOMAIN"
         - name: TUF_URL
-          value: "tuf-url"
+          value: "https://tuf-securesign.$BASE_DOMAIN"
         command: ["/bin/sh", "-c"]
         args:
           - |
