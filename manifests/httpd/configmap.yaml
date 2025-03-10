@@ -40,7 +40,7 @@ data:
     </head>
     <body>
         <div class="container">
-            <h1>Welcome to OpenShift HTTP Server</h1>
+            <h1>Hello Stephen and Steve!</h1>
             <p>This is a simple HTTP server running in the <strong>rcook</strong> namespace on OpenShift.</p>
             
             <div class="info">
